@@ -21,3 +21,16 @@ jobs:
         with:
           name: CodexUsageWidget-win-x64
           path: publish/CodexUsageWidget.exe
+
+      - name: Publish framework-dependent Lite build
+        shell: pwsh
+        run: |
+          dotnet publish -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -o publish-lite
+          $size = (Get-Item .\publish-lite\CodexUsageWidget.exe).Length
+          Write-Host ("LITE_EXE_BYTES=" + $size)
+
+      - name: Upload Lite build
+        uses: actions/upload-artifact@v4
+        with:
+          name: CodexUsageWidget-win-x64-lite
+          path: publish-lite/CodexUsageWidget.exe
