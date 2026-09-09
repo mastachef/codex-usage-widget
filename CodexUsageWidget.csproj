@@ -8,6 +8,10 @@
     <Version>0.2.1</Version>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Assets\CodexUsage.ico</ApplicationIcon>
+    <PublishSingleFile>true</PublishSingleFile>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
