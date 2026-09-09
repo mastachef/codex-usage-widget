@@ -183,7 +183,7 @@ sealed class AccountCard : Panel
             catch (ExternalException) { status = "Clipboard busy · click Copy sign-in link again"; }
             Invalidate();
         };
-        analytics = Widget.Button("Analytics", 14, 106, 90); analytics.ForeColor = Theme.Mint;
+        analytics = Widget.Button("Analytics", 14, 106, 90); analytics.ForeColor = Theme.Mint; analytics.Visible = false;
         analytics.Click += (_, _) => { using var form = new AnalyticsForm(ProfileId, email, () => tokenUsage); form.ShowDialog(owner); };
         remove = Widget.Button("Remove", 282, 106, 64); remove.ForeColor = Theme.Muted; remove.Click += async (_, _) => await owner.Remove(this);
         Controls.AddRange(new Control[] { login, copyLink, analytics, remove }); clock.Tick += (_, _) => Invalidate(); clock.Start();
