@@ -85,14 +85,63 @@ sealed class Widget : Form
         var refresh = Button("↻", 276, 8, 32); refresh.Font = new Font("Segoe UI", 14); refresh.Click += async (_, _) => await RefreshAll(); tips.SetToolTip(refresh, "Refresh all accounts");
         var auto = new Label { AutoSize = true, Text = "AUTO · 60s", Font = new Font("Segoe UI", 7.5f), ForeColor = Theme.Muted, Location = new Point(150, 16) };
         tips.SetToolTip(auto, "Usage refreshes automatically once a minute");
-        footer.Controls.AddRange(new Control[] { add, refresh, auto });
-        footer.SizeChanged += (_, _) => { refresh.Left = footer.Width - refresh.Width - 6; auto.Left = refresh.Left - 86; };
+        var update = Button("Update", 0, 8, 88); update.ForeColor = Theme.Mint; update.Visible = false;
+        UpdateInfo? pendingUpdate = null;
+
+        async Task CheckForUpdate(bool showCurrent = false)
+        {
+            try
+            {
+                pendingUpdate = await Updater.CheckAsync();
+                update.Visible = pendingUpdate != null;
+                if (pendingUpdate != null)
+                {
+                    update.Text = $"↑  v{pendingUpdate.Version.Major}.{pendingUpdate.Version.Minor}.{pendingUpdate.Version.Build}";
+                    tips.SetToolTip(update, $"Install {pendingUpdate.Tag} and restart");
+                }
+                else if (showCurrent) MessageBox.Show(this, $"You're up to date · v{Updater.CurrentVersion.Major}.{Updater.CurrentVersion.Minor}.{Updater.CurrentVersion.Build}", "Codex Usage");
+            }
+            catch
+            {
+                if (showCurrent) MessageBox.Show(this, "Could not check GitHub for updates. Try again later.", "Codex Usage");
+            }
+            footer.PerformLayout();
+        }
+
+        update.Click += async (_, _) =>
+        {
+            if (pendingUpdate == null) { await CheckForUpdate(true); return; }
+            update.Enabled = false;
+            var original = update.Text;
+            try
+            {
+                var progress = new Progress<int>(percent => update.Text = $"↓  {percent}%");
+                await Updater.DownloadAndInstallAsync(pendingUpdate, progress);
+                update.Text = "Restarting…";
+                timer.Stop();
+                Close();
+            }
+            catch (Exception ex)
+            {
+                update.Enabled = true; update.Text = original;
+                MessageBox.Show(this, ex.Message, "Update failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        };
+
+        footer.Controls.AddRange(new Control[] { add, update, refresh, auto });
+        footer.SizeChanged += (_, _) =>
+        {
+            refresh.Left = footer.Width - refresh.Width - 6;
+            auto.Left = refresh.Left - 86;
+            update.Left = Math.Max(add.Right + 8, auto.Left - update.Width - 8);
+        };
         Controls.Add(list); Controls.Add(header); Controls.Add(footer);
         list.HandleCreated += (_, _) => Native.SetWindowTheme(list.Handle, "DarkMode_Explorer", null);
         list.SizeChanged += (_, _) => FitCards();
         var menu = new ContextMenuStrip();
         menu.Items.Add("Show widget", null, (_, _) => Reveal());
         menu.Items.Add("Refresh all", null, async (_, _) => await RefreshAll());
+        menu.Items.Add("Check for updates", null, async (_, _) => await CheckForUpdate(true));
         menu.Items.Add(pinMenu);
         menu.Items.Add("Start with Windows", null, (_, _) => ToggleStartup());
         menu.Items.Add("Quit", null, (_, _) => Close());
@@ -101,7 +150,7 @@ sealed class Widget : Form
         foreach (var id in settings.Profiles.ToArray().Where(id => Guid.TryParseExact(id, "N", out _)).Distinct()) AddProfile(id);
         if (accounts.Count == 0) AddProfile(Guid.NewGuid().ToString("N"));
         if (!preview) Save();
-        if (!preview) Shown += async (_, _) => await RefreshAll();
+        if (!preview) Shown += async (_, _) => { await RefreshAll(); await CheckForUpdate(); };
         timer.Tick += async (_, _) => await RefreshAll(); if (!preview) timer.Start();
         FormClosing += (_, _) => { timer.Stop(); settings.X = Left; settings.Y = Top; settings.Width = ClientSize.Width; settings.Height = ClientSize.Height; if (!preview) Save(); tray.Dispose(); foreach (var card in accounts) card.Shutdown(); };
     }
