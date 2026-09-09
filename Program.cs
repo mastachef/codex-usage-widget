@@ -165,9 +165,9 @@ sealed class AccountCard : Panel
     bool busy, loggingIn, stopped, expanded, hovered;
     string? loginId, signInUrl;
     string email = "Connect an account", plan = "", status = "Sign in with your ChatGPT account";
-    JsonNode? data;
+    JsonNode? data, tokenUsage;
     DateTime? updated;
-    readonly Button login, copyLink, remove;
+    readonly Button login, copyLink, analytics, remove;
     readonly System.Windows.Forms.Timer clock = new() { Interval = 15000 };
     public AccountCard(Widget parent, string id)
     {
@@ -183,8 +183,10 @@ sealed class AccountCard : Panel
             catch (ExternalException) { status = "Clipboard busy · click Copy sign-in link again"; }
             Invalidate();
         };
+        analytics = Widget.Button("Analytics", 14, 106, 90); analytics.ForeColor = Theme.Mint;
+        analytics.Click += (_, _) => { using var form = new AnalyticsForm(ProfileId, email, () => tokenUsage); form.ShowDialog(owner); };
         remove = Widget.Button("Remove", 282, 106, 64); remove.ForeColor = Theme.Muted; remove.Click += async (_, _) => await owner.Remove(this);
-        Controls.AddRange(new Control[] { login, copyLink, remove }); clock.Tick += (_, _) => Invalidate(); clock.Start();
+        Controls.AddRange(new Control[] { login, copyLink, analytics, remove }); clock.Tick += (_, _) => Invalidate(); clock.Start();
         SizeChanged += (_, _) => { remove.Left = Width - 78; copyLink.Width = Width - 194; Invalidate(); };
         MouseEnter += (_, _) => { hovered = true; Invalidate(); };
         MouseLeave += (_, _) => { hovered = false; Invalidate(); };
@@ -238,9 +240,12 @@ sealed class AccountCard : Panel
         {
             var server = await Connect();
             var account = (await server.Call("account/read", new { refreshToken = false }))["account"];
-            if (account == null) { email = "Connect an account"; plan = ""; data = null; updated = null; status = "Sign in with your ChatGPT account"; login.Text = "Sign in"; return; }
+            if (account == null) { email = "Connect an account"; plan = ""; data = null; tokenUsage = null; updated = null; status = "Sign in with your ChatGPT account"; login.Text = "Sign in"; return; }
             email = account["email"]?.ToString() ?? "ChatGPT account"; plan = account["planType"]?.ToString() ?? ""; login.Text = "Reconnect";
-            data = await server.Call("account/rateLimits/read"); updated = DateTime.Now; status = "";
+            data = await server.Call("account/rateLimits/read");
+            try { tokenUsage = await server.Call("account/usage/read"); } catch { tokenUsage = null; }
+            UsageHistoryStore.Append(ProfileId, data, tokenUsage);
+            updated = DateTime.Now; status = "";
         }
         catch { status = "Unavailable · Refresh or reconnect"; rpc?.Dispose(); rpc = null; }
         finally { busy = false; if (!stopped) { LayoutCard(); Invalidate(); } }
@@ -251,8 +256,21 @@ sealed class AccountCard : Panel
     {
         int rows = data == null ? 0 : Usage.Buckets(data).Count();
         Height = data == null ? 148 : expanded ? 120 + rows * 148 + (data["rateLimitResetCredits"] != null ? 22 : 0) : 120;
-        login.Visible = copyLink.Visible = remove.Visible = data == null || expanded;
-        login.Top = copyLink.Top = remove.Top = Height - 41;
+        if (data == null)
+        {
+            analytics.Visible = false;
+            login.Visible = copyLink.Visible = remove.Visible = true;
+            login.Left = 14;
+        }
+        else
+        {
+            analytics.Visible = expanded;
+            login.Visible = remove.Visible = expanded;
+            copyLink.Visible = false;
+            analytics.Left = 14;
+            login.Left = 110;
+        }
+        analytics.Top = login.Top = copyLink.Top = remove.Top = Height - 41;
     }
     protected override void OnPaint(PaintEventArgs e)
     {
