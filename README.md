@@ -197,7 +197,3 @@ Tests cover quota math, missing/expired values, account bucket preservation, com
 
 - https://learn.chatgpt.com/docs/app-server
 - https://learn.chatgpt.com/docs/auth
-
-## Search terms / project scope
-
-This project is intended for users searching for a **Codex usage tracker**, **Codex quota monitor**, **ChatGPT Codex usage widget**, **Codex rate limit tracker**, **Codex 5-hour limit monitor**, **Codex weekly limit monitor**, **Codex token usage analytics**, or a **multi-account Codex monitor for Windows**.
