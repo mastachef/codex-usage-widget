@@ -1,0 +1,80 @@
+name: release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[release]')
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Read version
+        id: version
+        shell: pwsh
+        run: |
+          $version = (Get-Content VERSION -Raw).Trim()
+          "version=$version" >> $env:GITHUB_OUTPUT
+          "tag=v$version" >> $env:GITHUB_OUTPUT
+
+      - name: Publish Windows build
+        shell: pwsh
+        run: |
+          dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o publish
+
+      - name: Run self-test
+        shell: pwsh
+        run: |
+          .\publish\CodexUsageWidget.exe --self-test
+
+      - name: Create tag and GitHub Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if (-not (git tag --list $env:TAG)) {
+            git tag $env:TAG $env:GITHUB_SHA
+            git push origin $env:TAG
+          }
+
+          @"
+          ## Codex Usage Widget v$env:VERSION
+
+          Initial public Windows release.
+
+          ### Highlights
+          - Multi-account Codex quota monitoring
+          - 5-hour and weekly remaining quota
+          - Windows 11 rounded corners and Mica backdrop
+          - Local quota history and analytics
+          - Token activity summaries when available
+          - Single self-contained Windows executable
+
+          ### Install / update
+          1. Quit the old widget from the system tray.
+          2. Download **CodexUsageWidget.exe** below.
+          3. Replace your old EXE with the new one.
+          4. Launch it.
+
+          Saved accounts and local history stay under `%LOCALAPPDATA%\CodexUsageWidget`.
+          "@ | Set-Content release-notes.md
+
+          gh release create $env:TAG "publish/CodexUsageWidget.exe" --title "Codex Usage Widget v$env:VERSION" --notes-file release-notes.md --latest
