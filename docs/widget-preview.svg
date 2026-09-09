@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="1160" viewBox="0 0 920 1160">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1b26"/>
+      <stop offset="1" stop-color="#09131c"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#102633" stop-opacity=".94"/>
+      <stop offset="1" stop-color="#0d202b" stop-opacity=".94"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="24" flood-color="#000" flood-opacity=".45"/>
+    </filter>
+  </defs>
+  <rect width="920" height="1160" rx="36" fill="#071018"/>
+  <rect x="28" y="28" width="864" height="1104" rx="34" fill="url(#bg)" stroke="#2f4655" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="28" y="28" width="864" height="76" rx="34" fill="#0a1822"/>
+  <circle cx="68" cy="66" r="18" fill="#1d3948"/>
+  <path d="M59 60h18M59 66h18M59 72h18" stroke="#76d9ff" stroke-width="3" stroke-linecap="round"/>
+  <text x="104" y="72" font-family="Segoe UI, Arial" font-size="27" font-weight="700" fill="#f5f7fa">Codex / Usage</text>
+  <rect x="718" y="46" width="142" height="42" rx="20" fill="#123d52" stroke="#2d7c9b"/>
+  <circle cx="742" cy="67" r="6" fill="#35d7ff"/>
+  <text x="758" y="73" font-family="Segoe UI, Arial" font-size="18" fill="#8edfff">On top</text>
+  <text x="58" y="132" font-family="Segoe UI, Arial" font-size="15" fill="#94a9b7">All accounts · quota remaining</text>
+
+  <g transform="translate(48 164)">
+    <rect width="824" height="244" rx="28" fill="url(#card)" stroke="#2b4d5f" stroke-width="2"/>
+    <circle cx="58" cy="56" r="30" fill="#16a274"/><text x="47" y="65" font-family="Segoe UI, Arial" font-size="28" font-weight="700" fill="#fff">D</text>
+    <rect x="102" y="34" width="360" height="22" rx="11" fill="#7f919d" opacity=".45"/>
+    <text x="102" y="84" font-family="Segoe UI, Arial" font-size="17" fill="#a7c9da">PLUS  ·  2:21 PM</text>
+    <text x="30" y="138" font-family="Segoe UI, Arial" font-size="22" fill="#b9d3df">5-hour</text>
+    <text x="378" y="146" font-family="Segoe UI, Arial" font-size="42" font-weight="700" fill="#ff625d">3%</text>
+    <text x="444" y="138" font-family="Segoe UI, Arial" font-size="22" fill="#b9d3df">Weekly</text>
+    <text x="748" y="146" text-anchor="end" font-family="Segoe UI, Arial" font-size="42" font-weight="700" fill="#f5f7fa">43%</text>
+    <rect x="30" y="164" width="382" height="12" rx="6" fill="#2b4655"/><rect x="30" y="164" width="12" height="12" rx="6" fill="#ff625d"/>
+    <rect x="444" y="164" width="334" height="12" rx="6" fill="#2b4655"/><rect x="444" y="164" width="144" height="12" rx="6" fill="#4ccfff"/>
+    <text x="30" y="210" font-family="Segoe UI, Arial" font-size="16" fill="#89a9b9">Resets in 4h 3m</text>
+    <text x="444" y="210" font-family="Segoe UI, Arial" font-size="16" fill="#89a9b9">Resets in 6d 6h</text>
+  </g>
+
+  <g transform="translate(48 430)">
+    <rect width="824" height="244" rx="28" fill="url(#card)" stroke="#2b4d5f" stroke-width="2"/>
+    <circle cx="58" cy="56" r="30" fill="#16a274"/><text x="47" y="65" font-family="Segoe UI, Arial" font-size="28" font-weight="700" fill="#fff">O</text>
+    <rect x="102" y="34" width="350" height="22" rx="11" fill="#7f919d" opacity=".45"/>
+    <text x="102" y="84" font-family="Segoe UI, Arial" font-size="17" fill="#a7c9da">PLUS  ·  2:21 PM</text>
+    <text x="30" y="138" font-family="Segoe UI, Arial" font-size="22" fill="#b9d3df">5-hour</text>
+    <text x="378" y="146" font-family="Segoe UI, Arial" font-size="42" font-weight="700" fill="#ff625d">0%</text>
+    <text x="444" y="138" font-family="Segoe UI, Arial" font-size="22" fill="#b9d3df">Weekly</text>
+    <text x="748" y="146" text-anchor="end" font-family="Segoe UI, Arial" font-size="42" font-weight="700" fill="#f5f7fa">56%</text>
+    <rect x="30" y="164" width="382" height="12" rx="6" fill="#2b4655"/>
+    <rect x="444" y="164" width="334" height="12" rx="6" fill="#2b4655"/><rect x="444" y="164" width="187" height="12" rx="6" fill="#4ccfff"/>
+    <text x="30" y="210" font-family="Segoe UI, Arial" font-size="16" fill="#89a9b9">Resets in 2h 38m</text>
+    <text x="444" y="210" font-family="Segoe UI, Arial" font-size="16" fill="#89a9b9">Resets in 6d 7h</text>
+  </g>
+
+  <g transform="translate(48 696)">
+    <rect width="824" height="244" rx="28" fill="url(#card)" stroke="#2b4d5f" stroke-width="2"/>
+    <circle cx="58" cy="56" r="30" fill="#159f8f"/><text x="47" y="65" font-family="Segoe UI, Arial" font-size="28" font-weight="700" fill="#fff">D</text>
+    <rect x="102" y="34" width="390" height="22" rx="11" fill="#7f919d" opacity=".45"/>
+    <text x="102" y="84" font-family="Segoe UI, Arial" font-size="17" fill="#a7c9da">PLUS  ·  2:21 PM</text>
+    <text x="30" y="138" font-family="Segoe UI, Arial" font-size="22" fill="#b9d3df">5-hour</text>
+    <text x="378" y="146" font-family="Segoe UI, Arial" font-size="42" font-weight="700" fill="#f5f7fa">100%</text>
+    <text x="444" y="138" font-family="Segoe UI, Arial" font-size="22" fill="#b9d3df">Weekly</text>
+    <text x="748" y="146" text-anchor="end" font-family="Segoe UI, Arial" font-size="42" font-weight="700" fill="#f5f7fa">84%</text>
+    <rect x="30" y="164" width="382" height="12" rx="6" fill="#2b4655"/><rect x="30" y="164" width="382" height="12" rx="6" fill="#4ccfff"/>
+    <rect x="444" y="164" width="334" height="12" rx="6" fill="#2b4655"/><rect x="444" y="164" width="281" height="12" rx="6" fill="#4ccfff"/>
+    <text x="30" y="210" font-family="Segoe UI, Arial" font-size="16" fill="#89a9b9">Resets in 4h 59m</text>
+    <text x="444" y="210" font-family="Segoe UI, Arial" font-size="16" fill="#89a9b9">Resets in 6d 8h</text>
+  </g>
+
+  <rect x="48" y="990" width="208" height="54" rx="18" fill="#10293a" stroke="#315770"/>
+  <text x="75" y="1024" font-family="Segoe UI, Arial" font-size="18" fill="#f5f7fa">＋  Add account</text>
+  <text x="665" y="1025" font-family="Segoe UI, Arial" font-size="16" fill="#7dbcd6">AUTO · 60s</text>
+  <rect x="796" y="990" width="76" height="54" rx="18" fill="#10293a" stroke="#315770"/>
+  <path d="M833 1006a15 15 0 1 1-11 5" fill="none" stroke="#d9f1ff" stroke-width="3" stroke-linecap="round"/>
+  <path d="M820 1003v12h12" fill="none" stroke="#d9f1ff" stroke-width="3" stroke-linecap="round"/>
+  <text x="460" y="1090" text-anchor="middle" font-family="Segoe UI, Arial" font-size="16" fill="#6f8794">Windows 11 rounded corners · Mica backdrop</text>
+</svg>
