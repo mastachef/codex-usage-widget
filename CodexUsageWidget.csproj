@@ -5,7 +5,14 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.2.0</Version>
+    <Version>0.2.1</Version>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\CodexUsage.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\CodexUsage.ico">
+      <LogicalName>CodexUsageWidget.Assets.CodexUsage.ico</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>
