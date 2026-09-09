@@ -1,0 +1,23 @@
+# .NET build output
+bin/
+obj/
+publish/
+publish-next/
+
+# Visual Studio / Rider / VS Code
+.vs/
+.idea/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Test/generated artifacts
+*-results.txt
+preview-*.png
+live-*.png
+
+# OS junk
+Thumbs.db
+.DS_Store
