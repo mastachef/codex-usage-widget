@@ -55,26 +55,4 @@ jobs:
             git push origin $env:TAG
           }
 
-          @"
-          ## Codex Usage Widget v$env:VERSION
-
-          Initial public Windows release.
-
-          ### Highlights
-          - Multi-account Codex quota monitoring
-          - 5-hour and weekly remaining quota
-          - Windows 11 rounded corners and Mica backdrop
-          - Local quota history and analytics
-          - Token activity summaries when available
-          - Single self-contained Windows executable
-
-          ### Install / update
-          1. Quit the old widget from the system tray.
-          2. Download **CodexUsageWidget.exe** below.
-          3. Replace your old EXE with the new one.
-          4. Launch it.
-
-          Saved accounts and local history stay under `%LOCALAPPDATA%\CodexUsageWidget`.
-          "@ | Set-Content release-notes.md
-
-          gh release create $env:TAG "publish/CodexUsageWidget.exe" --title "Codex Usage Widget v$env:VERSION" --notes-file release-notes.md --latest
+          gh release create $env:TAG "publish/CodexUsageWidget.exe" --title "Codex Usage Widget v$env:VERSION" --generate-notes --latest
