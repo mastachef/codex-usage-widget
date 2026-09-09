@@ -10,6 +10,7 @@ A compact Windows widget for monitoring Codex subscription quota across multiple
 - 60-second automatic refresh with no overlapping refresh cycles.
 - Always-on-top toggle, system tray support, optional Windows startup, remembered size and position.
 - Native Windows 11 rounded outer corners and Mica backdrop, with graceful fallback on older Windows.
+- Optional analytics view with local quota history, recent quota burn-rate estimates, lifetime/peak token activity, and recent daily token charts.
 - Uses separate `CODEX_HOME` directories and Codex's Windows credential store (`keyring`); the widget does not collect account passwords or tokens.
 
 ## Download / run
@@ -45,6 +46,12 @@ The widget keeps the normal resizable Windows frame for reliable snapping, resiz
 This displays **Codex subscription limits**, not ordinary ChatGPT per-model message caps or API billing. Percentages are remaining quota. The app only displays backend-provided values; missing values remain unavailable, and failed reads retain the last snapshot while marking it unavailable.
 
 Each account uses one idle Codex app-server process. No model turns are started by the widget.
+
+### Analytics
+
+The analytics view samples the quota percentages already returned by Codex once per refresh and stores them locally under `%LOCALAPPDATA%/CodexUsageWidget/history`. It also calls `account/usage/read` for account token-activity summaries and daily buckets when that endpoint is available.
+
+The displayed quota burn rate is an **observed estimate**, not a token-to-quota conversion. Subscription quota can be weighted by factors that are not exposed as a simple public percentage-per-token formula.
 
 ## Controls
 
