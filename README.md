@@ -29,6 +29,18 @@ No installer or .NET setup is required for the self-contained Windows build.
 
 **Latest releases:** https://github.com/mastachef/codex-usage-widget/releases
 
+## Download size and verification
+
+The Windows download is **self-contained**, which means the required .NET desktop runtime is bundled inside the EXE instead of making users install a separate dependency. Earlier builds were about 146 MB; current releases use single-file compression to cut that substantially while keeping the app self-contained.
+
+Every release also includes `SHA256SUMS.txt`. To verify a download in PowerShell:
+
+```powershell
+Get-FileHash .\CodexUsageWidget.exe -Algorithm SHA256
+```
+
+Compare that hash with the value in `SHA256SUMS.txt` on the same GitHub Release.
+
 ## What is Codex Usage Widget?
 
 Codex Usage Widget is a Windows desktop **Codex quota tracker** and **Codex token usage monitor**. It is designed for people using Codex heavily who want to see how quickly their 5-hour and weekly allowance is being consumed without repeatedly opening account pages or switching browser profiles.
