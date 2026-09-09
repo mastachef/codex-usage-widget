@@ -53,7 +53,8 @@ It can monitor several ChatGPT/Codex accounts at the same time while keeping eac
 - **5-hour Codex quota remaining** with local reset countdown.
 - **Weekly Codex quota remaining** with local reset countdown.
 - **Quota burn-rate estimates** based on locally recorded history.
-- **Token usage analytics** when the Codex account endpoint reports token activity.
+- **Request-level Codex telemetry** from local session metadata: model, reasoning effort, input/cached/uncached/cache-write/output/reasoning tokens, cache hit rate, context pressure, compactions, and observed quota deltas.
+- **Token usage analytics** from the account endpoint when Codex reports account-level activity.
 - **Usage history graphs** stored locally on the PC.
 - **60-second automatic refresh** with no overlapping refresh cycles.
 - **One-click app updates** from GitHub Releases, including SHA-256 verification when GitHub provides a release digest.
@@ -86,17 +87,28 @@ Updating the EXE does not normally remove that data.
 
 ## Codex usage analytics
 
-The analytics view samples the quota percentages already returned by Codex and stores the history locally. It can show:
+The analytics window has separate views for **Overview**, **Model requests**, **Models / effort**, **Sessions**, and **Optimization flags**.
 
-- 5-hour quota remaining over time
-- Weekly quota remaining over time
-- Observed quota burn rate
-- Lifetime token activity when available
-- Recent token activity rate
-- Daily token-usage history
-- Peak daily token usage
+The request-level scanner reads recent local Codex rollout metadata from the PC (normally `%USERPROFILE%\.codex\sessions`) and extracts only usage/session fields. It does **not** retain or export prompt text or model-response text.
 
-The quota burn rate is an **observed estimate**, not a fixed tokens-to-quota conversion. Codex subscription limits may use weighting or other factors that are not exposed as a simple public percentage-per-token formula.
+Useful diagnostics include:
+
+- input, cached input, uncached input, and cache-write input tokens per model request
+- output and reasoning-output tokens
+- model and effective reasoning effort
+- cache-hit percentage
+- reported context-window utilization
+- requests per turn and context-compaction events
+- totals grouped by model + reasoning effort
+- totals grouped by local session/project
+- observed 5-hour / weekly quota changes when the local Codex log includes rate-limit snapshots
+- observed quota percentage per 1M tokens, grouped by model + effort
+- review flags for unusually low cache reuse, large uncached inputs, high context pressure, reasoning-heavy calls, repeated model calls, and compactions
+- 24-hour, 7-day, and 30-day filters plus CSV export
+
+Local session telemetry is **device-level**. Codex rollout files do not always contain enough account identity to reliably attribute every local coding session to one of the widget's connected accounts, so the app does not guess. Account-level quota data remains separate in Overview.
+
+The quota-efficiency metrics are observed correlations, not a guaranteed token-to-quota formula. Codex subscription limits can use factors that are not exposed as a simple fixed conversion.
 
 ## How account sign-in works
 
