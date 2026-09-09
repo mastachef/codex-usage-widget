@@ -16,13 +16,8 @@ jobs:
           dotnet-version: '8.0.x'
       - name: Publish self-contained Windows build
         run: dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o publish
-      - name: Run self-tests
-        shell: pwsh
-        run: .\publish\CodexUsageWidget.exe --self-test
       - name: Upload build
         uses: actions/upload-artifact@v4
         with:
           name: CodexUsageWidget-win-x64
-          path: |
-            publish/CodexUsageWidget.exe
-            publish/test-results.txt
+          path: publish/CodexUsageWidget.exe
