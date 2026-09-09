@@ -135,8 +135,13 @@ sealed class Widget : Form
     protected override void OnHandleCreated(EventArgs e)
     {
         base.OnHandleCreated(e);
+        // Native Windows 11 polish. Unsupported attributes are safely ignored on older Windows.
         int enabled = 1;
-        Native.DwmSetWindowAttribute(Handle, 20, ref enabled, sizeof(int));
+        Native.DwmSetWindowAttribute(Handle, 20, ref enabled, sizeof(int)); // immersive dark mode
+        int corner = 2;
+        Native.DwmSetWindowAttribute(Handle, 33, ref corner, sizeof(int)); // rounded outer corners
+        int backdrop = 2;
+        Native.DwmSetWindowAttribute(Handle, 38, ref backdrop, sizeof(int)); // Mica system backdrop
     }
     protected override void OnResizeEnd(EventArgs e)
     {
