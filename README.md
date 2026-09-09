@@ -2,6 +2,14 @@
 
 A compact Windows widget for monitoring Codex subscription quota across multiple ChatGPT accounts.
 
+<p align="center">
+  <img src="docs/widget-preview.svg" width="460" alt="Codex Usage Widget preview" />
+</p>
+
+<p align="center">
+  <img src="docs/analytics-preview.svg" width="760" alt="Codex Usage Widget analytics preview" />
+</p>
+
 ## Features
 
 - Multiple isolated ChatGPT/Codex accounts in one widget.
@@ -13,7 +21,29 @@ A compact Windows widget for monitoring Codex subscription quota across multiple
 - Optional analytics view with local quota history, recent quota burn-rate estimates, lifetime/peak token activity, and recent daily token charts.
 - Uses separate `CODEX_HOME` directories and Codex's Windows credential store (`keyring`); the widget does not collect account passwords or tokens.
 
-## Download / run
+## Download the latest Windows build
+
+You do not need to compile it yourself.
+
+1. Open the repository's **Actions** tab.
+2. Open the newest successful **build** run on `main`.
+3. Scroll to **Artifacts**.
+4. Download **CodexUsageWidget-win-x64**.
+5. Unzip it and run `CodexUsageWidget.exe`.
+
+Repository Actions: https://github.com/mastachef/codex-usage-widget/actions
+
+### Updating an existing copy
+
+1. Quit the old widget from its tray icon.
+2. Download the newest **CodexUsageWidget-win-x64** artifact using the steps above.
+3. Unzip the new build.
+4. Replace your old `CodexUsageWidget.exe` with the new one.
+5. Launch the new EXE.
+
+Your account profiles and usage history are stored under `%LOCALAPPDATA%/CodexUsageWidget`, so replacing the EXE does not normally remove your saved accounts/history.
+
+## Build it yourself
 
 The app requires Codex Desktop to be installed. A self-contained Windows build can be produced with:
 
@@ -27,7 +57,7 @@ Then launch:
 publish/CodexUsageWidget.exe
 ```
 
-The GitHub Actions workflow also builds a Windows artifact automatically on pushes and pull requests.
+The GitHub Actions workflow automatically creates the Windows artifact on pushes and pull requests.
 
 ## Accounts and sign-in
 
