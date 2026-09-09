@@ -40,6 +40,12 @@ jobs:
         run: |
           .\publish\CodexUsageWidget.exe --self-test
 
+      - name: Generate SHA-256 checksum
+        shell: pwsh
+        run: |
+          $hash = (Get-FileHash .\publish\CodexUsageWidget.exe -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  CodexUsageWidget.exe" | Set-Content -Encoding ascii .\publish\SHA256SUMS.txt
+
       - name: Create tag and GitHub Release
         shell: pwsh
         env:
@@ -55,4 +61,4 @@ jobs:
             git push origin $env:TAG
           }
 
-          gh release create $env:TAG "publish/CodexUsageWidget.exe" --title "Codex Usage Widget v$env:VERSION" --generate-notes --latest
+          gh release create $env:TAG "publish/CodexUsageWidget.exe" "publish/SHA256SUMS.txt" --title "Codex Usage Widget v$env:VERSION" --generate-notes --latest
