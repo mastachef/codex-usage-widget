@@ -2,8 +2,6 @@
 
 A compact Windows widget for monitoring Codex subscription quota across multiple ChatGPT accounts.
 
-![Codex Usage Widget](docs/screenshot.png)
-
 ## Features
 
 - Multiple isolated ChatGPT/Codex accounts in one widget.
@@ -11,6 +9,7 @@ A compact Windows widget for monitoring Codex subscription quota across multiple
 - Expandable account cards for additional rate-limit buckets, credits, freshness, reconnect, and removal controls.
 - 60-second automatic refresh with no overlapping refresh cycles.
 - Always-on-top toggle, system tray support, optional Windows startup, remembered size and position.
+- Native Windows 11 rounded outer corners and Mica backdrop, with graceful fallback on older Windows.
 - Uses separate `CODEX_HOME` directories and Codex's Windows credential store (`keyring`); the widget does not collect account passwords or tokens.
 
 ## Download / run
@@ -36,6 +35,10 @@ Click **Sign in**, finish the official browser sign-in, then use **Add account**
 **Copy sign-in link** creates a sign-in link without opening a browser, or copies the current pending link. Paste it into the desired browser/profile on the same PC and keep the widget running until sign-in completes.
 
 Each account runs in its own profile directory under `%LOCALAPPDATA%/CodexUsageWidget/profiles`, isolated from the user's normal Codex profile. Credentials remain in Codex's credential store.
+
+## Visual design
+
+The widget keeps the normal resizable Windows frame for reliable snapping, resizing, minimize/maximize controls, and accessibility. On supported Windows 11 builds it asks DWM for rounded outer corners and a Mica system backdrop rather than using whole-window opacity, which would also fade text and controls.
 
 ## What the widget measures
 
